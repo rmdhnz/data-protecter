@@ -1,0 +1,20 @@
+[project]
+name = "data-protecter"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "rmdhnz", email = "ramadhanfadhly2@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "cryptography>=50.0.2",
+    "python-dotenv>=1.2.4",
+]
+
+[project.scripts]
+data-protecter = "data_protecter:main"
+
+[build-system]
+requires = ["uv_build>=0.12.11,<0.13.0"]
+build-backend = "uv_build"
