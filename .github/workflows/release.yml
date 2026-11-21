@@ -1,0 +1,40 @@
+name: Build release Linux
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            arch: x86_64
+          - runner: ubuntu-24.04-arm
+            arch: aarch64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.13'
+      - name: Build dan uji executable
+        run: |
+          uv run --locked --with pyinstaller pyinstaller --onefile --name data-protecter app.py
+          dist/data-protecter --help
+          mv dist/data-protecter "dist/data-protecter-linux-${{ matrix.arch }}"
+          cd dist
+          sha256sum "data-protecter-linux-${{ matrix.arch }}" > "data-protecter-linux-${{ matrix.arch }}.sha256"
+      - name: Unggah aset release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$RELEASE_TAG" \
+            "dist/data-protecter-linux-${{ matrix.arch }}" \
+            "dist/data-protecter-linux-${{ matrix.arch }}.sha256"
