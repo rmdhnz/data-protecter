@@ -4,10 +4,10 @@ Panduan ini membuat executable Linux dan memasangnya ke `/usr/local/bin`, sehing
 
 ## Instalasi dari GitHub
 
-Setelah `install.sh` tersedia di branch `main` dan release yang berisi executable selesai dibuat, jalankan:
+Setelah `install.sh` tersedia di branch `master` dan release yang berisi executable selesai dibuat, jalankan:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/master/install.sh | sh
 ```
 
 Installer mengunduh binary dan checksum SHA-256 dari release terbaru, memeriksa checksum, lalu memasangnya ke `/usr/local/bin/data-protecter`. Installer meminta `sudo` melalui terminal jika diperlukan. Checksum mendeteksi kerusakan unduhan, tetapi bukan tanda tangan independen untuk membuktikan keaslian release. Diperlukan Linux x86_64 atau ARM64, `curl`, `sha256sum`, `mktemp`, dan `install`. Build ARM64 menggunakan Ubuntu 24.04 dan mungkin tidak berjalan pada distribusi Linux yang lebih lama.
@@ -16,13 +16,13 @@ Untuk menghindari `sudo`, buat direktori pengguna dan teruskan `INSTALL_DIR` ke 
 
 ```bash
 mkdir -p "$HOME/.local/bin"
-curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/main/install.sh | INSTALL_DIR="$HOME/.local/bin" sh
+curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/master/install.sh | INSTALL_DIR="$HOME/.local/bin" sh
 ```
 
 Untuk melihat isi installer sebelum menjalankan:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/main/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/master/install.sh -o install.sh
 less install.sh
 sh install.sh
 ```
@@ -66,23 +66,16 @@ Jika belum ada dalam `PATH`, tambahkan baris berikut ke konfigurasi shell, misal
 export PATH="/usr/local/bin:$PATH"
 ```
 
-## Atur password dan gunakan
+## Gunakan program
 
-Program tetap membutuhkan `DATA_PROTECTER_PASSWORD`. Pilih salah satu cara berikut:
-
-- Buat `.env` di direktori tempat perintah akan dijalankan, dengan isi `DATA_PROTECTER_PASSWORD=password-anda`. File ini menyimpan password dalam teks biasa; lindungi izinnya, misalnya dengan `chmod 600 .env`.
-- Atur variabel di shell saat ini dengan `export DATA_PROTECTER_PASSWORD='password-anda'`. Variabel shell yang sudah ada diprioritaskan daripada nilai `.env`.
-
-Jangan masukkan password asli ke executable atau bagikan `.env` bersama file terenkripsi. Simpan password dengan aman dan kirimkan kepada penerima melalui saluran terpisah. Saat mendekripsi, penerima perlu mengatur password yang sama pada environment atau `.env` miliknya.
-
-Contoh, jalankan dari direktori yang berisi `.env`, atau setelah mengatur variabel shell:
+Pilih password yang kuat untuk setiap enkripsi dan gunakan password yang sama saat mendekripsi. Program akan meminta password secara interaktif; `.env` tidak diperlukan. Simpan password dengan aman dan kirimkan kepada penerima melalui saluran terpisah.
 
 ```bash
 data-protecter encrypt -f /flashdisk/data.zip -o /flashdisk/backup_aman.dat
 data-protecter decrypt -f /flashdisk/backup_aman.dat -o /flashdisk/data-hasil.zip
 ```
 
-Program akan meminta password secara interaktif dan memeriksa kecocokannya dengan konfigurasi. Pastikan hasil dekripsi dapat dibuka sebelum memindahkan atau menghapus file asli. Program tidak menimpa file yang sudah ada.
+Pastikan hasil dekripsi dapat dibuka sebelum memindahkan atau menghapus file asli. Program tidak menimpa file yang sudah ada.
 
 ## Memasang build manual di komputer lain
 
@@ -94,4 +87,4 @@ Salin `dist/data-protecter` ke komputer Linux tujuan, kemudian jalankan `sudo in
 sudo rm /usr/local/bin/data-protecter
 ```
 
-Perintah ini hanya menghapus executable terpasang; file terenkripsi dan konfigurasi `.env` tetap ada.
+Perintah ini hanya menghapus executable terpasang; file terenkripsi tetap ada.

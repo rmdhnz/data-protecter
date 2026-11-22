@@ -7,7 +7,7 @@ Enkripsi dan dekripsi file atau isi folder menggunakan password. Untuk menjalank
 Setelah installer dan release dipublikasikan di GitHub, jalankan:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/rmdhnz/data-protecter/master/install.sh | sh
 ```
 
 Installer mendukung Linux x86_64 dan ARM64, serta memasang ke `/usr/local/bin` (meminta `sudo` bila diperlukan). Lihat [panduan instalasi executable Linux](docs/instalasi-linux.md) untuk konfigurasi, direktori alternatif, dan langkah membuat release.
@@ -27,6 +27,6 @@ Pilih operasi `encrypt` atau `decrypt`. Jika `-f` atau `-p` tidak diberikan, pro
 
 Untuk folder, file diproses secara rekursif; enkripsi melewati file `.enc` dan dekripsi hanya memproses file `.enc`. Program tidak menghapus file asal dan tidak menimpa file yang sudah ada. Jika salah satu file gagal diproses, program melanjutkan file lainnya dan mengembalikan status gagal. Pemrosesan membaca seluruh isi file ke memori.
 
-## Konfigurasi password
+## Password
 
-Salin `.env.example` menjadi `.env`, lalu isi `DATA_PROTECTER_PASSWORD` dengan password yang kuat. Password yang dimasukkan melalui `-p` atau prompt harus sama dengan `DATA_PROTECTER_PASSWORD`; jika tidak cocok, proses dibatalkan. Konfigurasi password wajib tersedia sebelum program dijalankan. Variabel environment yang sudah ada memiliki prioritas di atas `.env`. Simpan password dengan aman; file tidak dapat didekripsi tanpa password yang sama. Jangan menyimpan `.env` bersama file terenkripsi di drive atau flashdisk.
+Gunakan password yang kuat dan simpan dengan aman. Setiap file dapat dienkripsi dengan password yang berbeda; gunakan password yang sama saat mendekripsi file tersebut. Program tidak memerlukan `.env`. File yang dibuat oleh versi sebelumnya tetap dapat didekripsi dengan password yang digunakan saat enkripsi.

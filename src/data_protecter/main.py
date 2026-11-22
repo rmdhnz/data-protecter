@@ -2,14 +2,11 @@ import argparse
 import base64
 import getpass
 import os
-import hmac
 from pathlib import Path
 
 from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-
-from .config import get_password
 
 
 def derive_key(password: str, salt: bytes) -> bytes:
@@ -53,10 +50,9 @@ def main() -> None:
 
     try:
         path = args.file or Path(input("Lokasi file atau folder: ").strip())
-        configured_password = get_password()
         password = getpass.getpass("Password: ") if args.password is None else args.password
-        if not password or not hmac.compare_digest(password.encode(), configured_password.encode()):
-            raise ValueError("Password tidak cocok ")
+        if not password:
+            raise ValueError("Password tidak boleh kosong")
         if path.is_file():
             files = [path]
             is_directory = False
