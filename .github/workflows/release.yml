@@ -24,9 +24,13 @@ jobs:
         with:
           python-version: '3.13'
       - name: Build dan uji executable
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          uv run --locked --with pyinstaller pyinstaller --onefile --name data-protecter app.py
+          python -c 'import os, pathlib, re; tag = os.environ["RELEASE_TAG"]; assert re.fullmatch(r"v\.?[0-9]+\.[0-9]+\.[0-9]+", tag), "Tag harus seperti v.1.1.0 atau v1.1.0"; pathlib.Path("src/data_protecter/_release_version.py").write_text("RELEASE_VERSION = " + repr(tag) + "\n")'
+          uv run --locked --with pyinstaller pyinstaller --onefile --copy-metadata data-protecter --name data-protecter app.py
           dist/data-protecter --help
+          test "$(dist/data-protecter --version)" = "data-protecter $RELEASE_TAG"
           mv dist/data-protecter "dist/data-protecter-linux-${{ matrix.arch }}"
           cd dist
           sha256sum "data-protecter-linux-${{ matrix.arch }}" > "data-protecter-linux-${{ matrix.arch }}.sha256"

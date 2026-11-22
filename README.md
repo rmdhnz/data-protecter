@@ -14,6 +14,8 @@ Installer mendukung Linux x86_64 dan ARM64, serta memasang ke `/usr/local/bin` (
 
 ## Penggunaan
 
+Periksa versi yang terpasang dengan `data-protecter --version` atau `data-protecter -v`. Executable dari GitHub Release menampilkan tag release, misalnya `v.1.1.0`. Saat dijalankan dari source, versi mengikuti `pyproject.toml`.
+
 ```bash
 uv run data-protecter encrypt -f /flashdisk/data.zip -p 'Pass123' -o /flashdisk/backup_aman.dat
 uv run data-protecter decrypt -f /flashdisk/backup_aman.dat -p 'Pass123' -o /flashdisk/data.zip

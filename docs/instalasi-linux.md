@@ -29,7 +29,7 @@ sh install.sh
 
 ## Membuat release
 
-Push perubahan ke GitHub, kemudian publikasikan release dari tag yang berisi workflow `.github/workflows/release.yml`. GitHub Actions akan membuat binary dan checksum untuk masing-masing arsitektur dan mengunggahnya ke release. Tunggu kedua job berhasil sebelum memakai installer. Repository dan release harus dapat diakses oleh pengguna yang akan mengunduhnya.
+Push perubahan ke GitHub, kemudian publikasikan release dari tag yang berisi workflow `.github/workflows/release.yml`. GitHub Actions akan membuat binary dan checksum untuk masing-masing arsitektur dan mengunggahnya ke release. Gunakan tag seperti `v.1.1.0` atau `v1.1.0`; executable akan menampilkan tag tersebut saat diperiksa dengan `--version`. Tunggu kedua job berhasil sebelum memakai installer. Repository dan release harus dapat diakses oleh pengguna yang akan mengunduhnya.
 
 ## Membuat dan memasang secara manual
 
@@ -38,7 +38,7 @@ Push perubahan ke GitHub, kemudian publikasikan release dari tag yang berisi wor
 Pada komputer pembuat, siapkan Python 3.13 atau lebih baru, `uv`, dan source code proyek ini. Jalankan dari direktori utama proyek:
 
 ```bash
-uv run --with pyinstaller pyinstaller --onefile --name data-protecter app.py
+uv run --with pyinstaller pyinstaller --onefile --copy-metadata data-protecter --name data-protecter app.py
 ```
 
 Perintah ini menyediakan PyInstaller saat build dan membuat executable di `dist/data-protecter`. File `app.py` sudah tersedia sebagai titik masuk program. Build tidak menyertakan `.env`.
@@ -58,6 +58,7 @@ Pastikan `/usr/local/bin` tercantum dalam `PATH`, lalu periksa:
 ```bash
 command -v data-protecter
 data-protecter --help
+data-protecter --version
 ```
 
 Jika belum ada dalam `PATH`, tambahkan baris berikut ke konfigurasi shell, misalnya `~/.zshrc` atau `~/.bashrc`, lalu buka terminal baru:

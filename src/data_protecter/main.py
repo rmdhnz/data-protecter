@@ -3,6 +3,9 @@ import base64
 import getpass
 import os
 from pathlib import Path
+from importlib.metadata import version
+
+from ._release_version import RELEASE_VERSION
 
 from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.primitives import hashes
@@ -42,6 +45,7 @@ def decrypt_file(enc_file_path: str | Path, password: str, output_file_path: str
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Enkripsi atau dekripsi file dan folder.")
+    parser.add_argument("-v", "--version", action="version", version=f"%(prog)s {RELEASE_VERSION or version('data-protecter')}")
     parser.add_argument("action", choices=("encrypt", "decrypt"), help="Operasi yang dijalankan")
     parser.add_argument("-f", "--file", type=Path, help="Lokasi file atau folder")
     parser.add_argument("-p", "--password", help="Password enkripsi atau dekripsi")
